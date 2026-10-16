@@ -8,4 +8,14 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  testMatch: [
+    "<rootDir>/tests/unit/**/*.test.ts",
+    "<rootDir>/tests/unit/**/*.spec.ts",
+  ],
+  moduleFileExtensions: ["ts", "js", "json"],
+  coverageDirectory: "coverage",
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/index.ts",
+  ],
 };
