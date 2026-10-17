@@ -1,5 +1,5 @@
 
-import type { Product } from '../models/product.model.js';
+import type { Product } from './product.model';
 
 export enum OrderStatus {
     CREADA = 'CREADA',

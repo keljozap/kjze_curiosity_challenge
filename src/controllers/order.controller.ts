@@ -1,6 +1,6 @@
 // src/controllers/order.controller.ts
 import { Request, Response, NextFunction } from "express";
-import { orderService } from "../services/order.service.js";
+import { orderService } from "../services/order.service";
 
 export const createOrder = (req: Request, res: Response, next: NextFunction): void => {
     try {

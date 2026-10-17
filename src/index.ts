@@ -1,10 +1,10 @@
 // src/index.ts
 import express, { Application } from 'express';
-import apiRouter from './routes/index.js';
-import { notFoundHandler, errorHandler } from './middlewares/error.middleware.js';
+import apiRouter from './routes/index';
+import { notFoundHandler, errorHandler } from './middlewares/error.middleware';
 
 const app: Application = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 
 // Body parsing
 app.use(express.json());

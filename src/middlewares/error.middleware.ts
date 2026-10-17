@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppError, NotFoundError } from '../errors/app.error.js';
+import { AppError, NotFoundError } from '../errors/app.error';
 
 /**
  * Intercepts requests that do not match any defined route

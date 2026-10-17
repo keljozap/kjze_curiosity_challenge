@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
-import { Order, OrderStatus } from '../models/order.model.js';
-import { Product } from '../models/product.model.js';
-import { ConflictError, NotFoundError, ValidationError } from '../errors/app.error.js';
+import { randomUUID } from 'node:crypto';
+import { Order, OrderStatus } from '../models/order.model';
+import { Product } from '../models/product.model';
+import { ConflictError, NotFoundError, ValidationError } from '../errors/app.error';
 
 export class OrderService {
     // DB for the challenge
@@ -38,7 +38,7 @@ export class OrderService {
         // RN-03: El valor total de la orden debe calcularse automáticamente
         const total = productos.reduce((acc, p) => acc + (p.cantidad * p.valorUnitario), 0);
         const newOrder: Order = {
-            id: uuidv4(),
+            id: randomUUID(),
             cliente,
             productos,
             total,
