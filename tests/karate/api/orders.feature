@@ -2,7 +2,8 @@ Feature: Pruebas de Aceptación - API de Órdenes
 
   Background:
     # Apuntamos a la API levantada en local
-    * url 'http://localhost:3001'
+    # * url 'http://localhost:3001'
+    * url 'http://host.docker.internal:3001'
 
   Scenario: Crear una orden válida
     # Given una orden válida
@@ -73,3 +74,40 @@ Feature: Pruebas de Aceptación - API de Órdenes
     When method delete
     # Then responde 409
     Then status 409
+
+    Scenario: Rechazar la creación de una orden sin productos (RN-01)
+    Given path 'orders'
+    And request { cliente: 'Cliente Sin Productos', productos: [] }
+    When method post
+    Then status 400
+    And match response.error != null
+
+    Scenario: Rechazar la creación por cantidades o precios inválidos (RN-02)
+    Given path 'orders'
+    And request { cliente: 'Cliente Invalido', productos: [{ id: 'P005', cantidad: 0, valorUnitario: -100 }] }
+    When method post
+    Then status 400
+    And match response.error != null
+
+    Scenario: Rechazar transición de estado inválida (RN-06)
+    # Setup: Creamos la orden (estado inicial CREADA)
+    Given path 'orders'
+    And request { cliente: 'Cliente Transición', productos: [{ id: 'P006', cantidad: 1, valorUnitario: 5000 }] }
+    When method post
+    Then status 201
+    * def orderId = response.id
+
+    # Acción: Intentar pasar directamente a ENTREGADA
+    Given path 'orders', orderId, 'status'
+    And request { estado: 'ENTREGADA' }
+    When method patch
+    Then status 400
+    And match response.error != null
+
+    Scenario: Consultar una orden inexistente
+    Given path 'orders', 'id-falso-que-no-existe-12345'
+    When method get
+    Then status 404
+    And match response.error != null
+
+    

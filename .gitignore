@@ -52,3 +52,8 @@ coverage/
 .stryker-tmp/
 reports/
 stryker.log
+
+# Karate API
+target/
+karate.jar
+*.log

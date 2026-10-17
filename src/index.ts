@@ -4,7 +4,7 @@ import apiRouter from './routes/index';
 import { notFoundHandler, errorHandler } from './middlewares/error.middleware';
 
 const app: Application = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 // Body parsing
 app.use(express.json());
@@ -19,10 +19,9 @@ app.use(notFoundHandler);
 // 2. Global error handler (must be the very LAST middleware with 4 arguments)
 app.use(errorHandler);
 
-if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, () => {
-        console.log(`Servidor de Orders API ejecutándose en http://localhost:${PORT}`);
-    });
-}
+app.listen(PORT, '0.0.0.0', () => {
+    // 0.0.0.0 permite peticiones desde cualquier interfaz de red (incluyendo Docker)
+    console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
+});
 
 export default app;
