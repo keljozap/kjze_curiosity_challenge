@@ -43,3 +43,12 @@ reports/
 .Spotlight-V100
 .Trashes
 Thumbs.db
+
+# Coverage reports (Jest/Istanbul)
+coverage/
+.nyc_output/
+
+# Mutation testing reports and temporaries (Stryker)
+.stryker-tmp/
+reports/
+stryker.log

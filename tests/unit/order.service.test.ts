@@ -1,7 +1,8 @@
-import { OrderService, orderService } from '../../src/services/order.service';
+import { OrderService } from '../../src/services/order.service';
 import { OrderStatus } from '../../src/models/order.model';
 import { Product } from '../../src/models/product.model';
 import { describe, expect, test } from '@jest/globals';
+import { ValidationError, NotFoundError, ConflictError } from '../../src/errors/app.error';
 
 describe('OrderService', () => {
     let newOrderService: OrderService;
@@ -70,6 +71,109 @@ describe('OrderService', () => {
     });
 
     describe('Creación de Ordenes - Negative tests', () => {
+        // NP-01: Fallo al intentar crear una orden sin productos (RN-01)
+        test('debe arrojar ValidationError si el arreglo de productos está vacío', () => {
+            expect(() => {
+                newOrderService.createOrder('Laura Díaz', []);
+            }).toThrow(ValidationError);
 
+            expect(() => {
+                newOrderService.createOrder('Laura Díaz', []);
+            }).toThrow('RN-01: La orden debe contener al menos un producto.');
+        });
+
+        // NP-02: Fallo al intentar crear una orden con productos indefinidos o nulos (RN-01)
+        test('debe arrojar ValidationError si la lista de productos es nula', () => {
+            // Usamos as unknown as Product[] para simular un fallo en tiempo de ejecución
+            expect(() => {
+                newOrderService.createOrder('Luis Soto', null as unknown as Product[]);
+            }).toThrow(ValidationError);
+
+            expect(() => {
+                newOrderService.createOrder('Luis Soto', undefined as unknown as Product[]);
+            }).toThrow('RN-01: La orden debe contener al menos un producto.');
+        });
+
+        // NP-03: Fallo al intentar crear una orden con cantidad de producto igual a cero (RN-02)
+        test('debe arrojar ValidationError si algún producto tiene cantidad igual a cero', () => {
+            const productosCantidadCero: Product[] = [
+                { id: 'P001', cantidad: 0, valorUnitario: 10000 }
+            ];
+
+            expect(() => {
+                newOrderService.createOrder('Pedro Pérez', productosCantidadCero);
+            }).toThrow(ValidationError);
+
+            expect(() => {
+                newOrderService.createOrder('Pedro Pérez', productosCantidadCero);
+            }).toThrow('RN-02: La cantidad de cada producto debe ser mayor que cero.');
+        });
+
+        // NP-04: Fallo al intentar crear una orden con cantidad de producto negativa (RN-02)
+        test('debe arrojar ValidationError si algún producto en la lista tiene cantidad negativa', () => {
+            const productosCantidadNegativa: Product[] = [
+                { id: 'P001', cantidad: 2, valorUnitario: 10000 },
+                { id: 'P002', cantidad: -3, valorUnitario: 5000 } // Cantidad inválida
+            ];
+
+            expect(() => {
+                newOrderService.createOrder('Pedro Pérez', productosCantidadNegativa);
+            }).toThrow(ValidationError);
+        });
+    })
+
+    describe('Gestión de Estados y Consultas - Happy Path', () => {
+        // NP-05: Fallo al consultar orden que no existe
+        test('debe arrojar NotFoundError al consultar una orden que no existe', () => {
+            expect(() => {
+                newOrderService.getOrderById('id-inexistente');
+            }).toThrow(NotFoundError);
+
+            expect(() => {
+                newOrderService.getOrderById('id-inexistente');
+            }).toThrow('Orden no encontrada.');
+        });
+
+        // NP-06: Fallo al cancelar orden entregada (RN-04)
+        test('debe arrojar ConflictError al intentar cancelar una orden entregada (RN-04)', () => {
+            const order = newOrderService.createOrder('Juan', validProducts);
+
+            // Llevamos la orden hasta el estado ENTREGADA
+            newOrderService.updateOrderStatus(order.id, OrderStatus.PAGADA);
+            newOrderService.updateOrderStatus(order.id, OrderStatus.ENVIADA);
+            newOrderService.updateOrderStatus(order.id, OrderStatus.ENTREGADA);
+
+            expect(() => {
+                newOrderService.cancelOrder(order.id);
+            }).toThrow(ConflictError);
+
+            expect(() => {
+                newOrderService.cancelOrder(order.id);
+            }).toThrow('RN-04: Una orden entregada no puede ser cancelada.');
+        });
+
+        // NP-07: Fallo al enviar orden no pagada (RN-05)
+        test('debe arrojar ValidationError al intentar enviar una orden no pagada (RN-05)', () => {
+            const order = newOrderService.createOrder('Juan', validProducts);
+
+            // Intentar pasar de CREADA a ENVIADA directamente
+            expect(() => {
+                newOrderService.updateOrderStatus(order.id, OrderStatus.ENVIADA);
+            }).toThrow(ValidationError);
+
+            expect(() => {
+                newOrderService.updateOrderStatus(order.id, OrderStatus.ENVIADA);
+            }).toThrow('RN-05: Una orden no puede ser enviada si no ha sido pagada.');
+        });
+
+        // NP-08: Fallo por transición inválida genérica (RN-06)
+        test('debe arrojar ValidationError ante transiciones inválidas de estado (RN-06)', () => {
+            const order = newOrderService.createOrder('Juan', validProducts);
+
+            // Intentar pasar de CREADA a ENTREGADA de golpe
+            expect(() => {
+                newOrderService.updateOrderStatus(order.id, OrderStatus.ENTREGADA);
+            }).toThrow(ValidationError);
+        });
     })
 })

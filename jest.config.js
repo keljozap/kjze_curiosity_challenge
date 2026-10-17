@@ -9,4 +9,7 @@ module.exports = {
   modulePathIgnorePatterns: ["<rootDir>/.stryker-tmp"],
   coverageDirectory: "coverage",
   collectCoverageFrom: ["src/**/*.ts", "!src/index.ts"],
+  preset: 'ts-jest',
+  // Formatos de reporte que generará Istanbul
+  coverageReporters: ['text', 'lcov', 'clover', 'cobertura', 'json'],
 };
