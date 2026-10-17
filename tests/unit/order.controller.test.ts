@@ -109,4 +109,21 @@ describe('Order Controller / Rutas HTTP', () => {
         // Restauramos la función original para no afectar las demás pruebas
         jest.restoreAllMocks();
     });
+
+    test('ALL /ruta-inexistente - debe disparar el notFoundHandler y retornar 404', async () => {
+        const response = await request(app).get('/ruta-que-no-existe-en-el-api');
+        expect(response.status).toBe(404);
+        // Validamos el string exacto para matar el mutante de StringLiteral
+        expect(response.body.error).toMatch(/^Ruta no encontrada:/);
+    });
+
+    test('POST /orders - debe atrapar un SyntaxError si se envía un JSON malformado', async () => {
+        const response = await request(app)
+            .post('/orders')
+            .set('Content-Type', 'application/json')
+            .send('{"cliente": "Juan", "productos": [ { "id": "P1", cantidad: 2 } ]'); // JSON roto intencionalmente (falta comilla o llave)
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('El cuerpo de la solicitud contiene un JSON inválido.');
+    });
 });

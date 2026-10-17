@@ -68,6 +68,15 @@ describe('OrderService', () => {
             expect(order1.id).not.toBe(order2.id);
             expect(newOrderService.getAllOrders()).toHaveLength(2);
         });
+
+        // HP-06: Limpieza de órdenes   
+        test('debe limpiar correctamente la lista interna de órdenes al llamar clearOrders', () => {
+            newOrderService.createOrder('Pedro', validProducts);
+            expect(newOrderService.getAllOrders().length).toBeGreaterThan(0);
+
+            newOrderService.clearOrders();
+            expect(newOrderService.getAllOrders()).toHaveLength(0);
+        });
     });
 
     describe('Creación de Ordenes - Negative tests', () => {
@@ -174,6 +183,32 @@ describe('OrderService', () => {
             expect(() => {
                 newOrderService.updateOrderStatus(order.id, OrderStatus.ENTREGADA);
             }).toThrow(ValidationError);
+        });
+
+        // NP-09: Matar mutantes de la línea 21 (validación estricta del cliente)
+        test('debe arrojar ValidationError si el nombre del cliente está vacío o son espacios', () => {
+            expect(() => {
+                newOrderService.createOrder('', validProducts);
+            }).toThrow('RN-00: El nombre del cliente es obligatorio.');
+
+            expect(() => {
+                newOrderService.createOrder('   ', validProducts);
+            }).toThrow('RN-00: El nombre del cliente es obligatorio.');
+        });
+
+        // NP-10: Matar mutantes de la línea 33-34 (NoCoverage en valor unitario)
+        test('debe arrojar ValidationError si el valor unitario es exactamente cero', () => {
+            const productosPrecioCero = [{ id: 'P001', cantidad: 1, valorUnitario: 0 }];
+            expect(() => {
+                newOrderService.createOrder('Ana', productosPrecioCero);
+            }).toThrow('El valor unitario de cada producto debe ser mayor que cero.');
+        });
+
+        test('debe arrojar ValidationError si el valor unitario es negativo', () => {
+            const productosPrecioNegativo = [{ id: 'P001', cantidad: 1, valorUnitario: -500 }];
+            expect(() => {
+                newOrderService.createOrder('Ana', productosPrecioNegativo);
+            }).toThrow('El valor unitario de cada producto debe ser mayor que cero.');
         });
     })
 })
