@@ -1,21 +1,28 @@
 // src/index.ts
 import express, { Application } from 'express';
 import apiRouter from './routes/index.js';
+import { notFoundHandler, errorHandler } from './middlewares/error.middleware.js';
 
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
-// Middleware para parsear JSON
+// Body parsing
 app.use(express.json());
 
-// Punto de entrada centralizado
-app.use('/api', apiRouter);
+// Routes
+app.use(apiRouter);  // Serves /orders directly as required by the challenge
+app.use('/api', apiRouter);  // Optional: also serves /api/orders
 
-// Iniciar el servidor solo si no estamos en entorno de pruebas
+// 1. Catch 404s (must be right after routes)
+app.use(notFoundHandler);
+
+// 2. Global error handler (must be the very LAST middleware with 4 arguments)
+app.use(errorHandler);
+
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
         console.log(`Servidor de Orders API ejecutándose en http://localhost:${PORT}`);
     });
 }
 
-export default app; // Lo exportamos para usarlo en las pruebas de Jest
+export default app;
