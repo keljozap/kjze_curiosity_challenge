@@ -47,3 +47,50 @@ jobs:
 
       - name: 7️⃣ Construcción de imagen Docker
         run: docker compose build
+
+  e2e-tests:
+    name: Frontend & E2E Tests
+    runs-on: ubuntu-latest
+    # Las pruebas de backend primero deben correr
+    needs: [quality-gate] 
+
+    steps:
+      - name: 📥 Descargar código
+        uses: actions/checkout@v4
+
+      - name: 🐳 Levantar Backend (API) con Docker Compose
+        run: docker-compose up -d
+        
+      - name: ⏳ Esperar a que la API esté lista
+        # Usamos un pequeño script para asegurar que el puerto 8080 responde antes de seguir
+        run: |
+          while ! curl -s http://localhost:8080/orders > /dev/null; do
+            echo "Esperando al backend..."
+            sleep 2
+          done
+          echo "¡Backend listo!"
+
+      - name: 🟢 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 📦 Instalar dependencias del Frontend
+        working-directory: ./frontend-orders
+        run: npm ci
+
+      - name: 🎭 Instalar navegadores de Playwright
+        working-directory: ./frontend-orders
+        run: npx playwright install --with-deps
+
+      - name: 🚀 Ejecutar pruebas E2E
+        working-directory: ./frontend-orders
+        run: npx playwright test
+
+      - name: 📊 Subir reporte de Playwright
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: frontend-orders/playwright-report/
+          retention-days: 7

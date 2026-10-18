@@ -62,3 +62,9 @@ karate.jar
 frontend-orders/node_modules/
 frontend-orders/dist/
 frontend-orders/.vite/
+
+# Playwright (Reports and test results)
+frontend-orders/test-results/
+frontend-orders/playwright-report/
+frontend-orders/playwright/.cache/
+frontend-orders/blob-report/
