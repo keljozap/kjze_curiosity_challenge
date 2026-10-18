@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  quality-gate:
+  backend-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,7 @@ jobs:
     name: Frontend & E2E Tests
     runs-on: ubuntu-latest
     # Las pruebas de backend primero deben correr
-    needs: [quality-gate] 
+    needs: [backend-tests] 
 
     steps:
       - name: 📥 Descargar código
