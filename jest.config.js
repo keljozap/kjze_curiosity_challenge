@@ -1,21 +1,15 @@
 const { createDefaultPreset } = require("ts-jest");
 
-const tsJestTransformCfg = createDefaultPreset().transform;
-
-/** @type {import("jest").Config} **/
 module.exports = {
   testEnvironment: "node",
   transform: {
-    ...tsJestTransformCfg,
+    ...createDefaultPreset().transform,
   },
-  testMatch: [
-    "<rootDir>/tests/unit/**/*.test.ts",
-    "<rootDir>/tests/unit/**/*.spec.ts",
-  ],
-  moduleFileExtensions: ["ts", "js", "json"],
+  testMatch: ["<rootDir>/tests/unit/**/*.test.ts"],
+  modulePathIgnorePatterns: ["<rootDir>/.stryker-tmp"],
   coverageDirectory: "coverage",
-  collectCoverageFrom: [
-    "src/**/*.ts",
-    "!src/index.ts",
-  ],
+  collectCoverageFrom: ["src/**/*.ts", "!src/index.ts"],
+  preset: 'ts-jest',
+  // Formatos de reporte que generará Istanbul
+  coverageReporters: ['text', 'lcov', 'clover', 'cobertura', 'json'],
 };
