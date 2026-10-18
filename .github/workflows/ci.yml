@@ -46,4 +46,4 @@ jobs:
           docker run --rm --add-host host.docker.internal:host-gateway -v "${{ github.workspace }}:/app" -w /app eclipse-temurin:17-jre java -jar karate.jar tests/karate/api/orders.feature
 
       - name: 7️⃣ Construcción de imagen Docker
-        run: docker-compose build
+        run: docker compose build
