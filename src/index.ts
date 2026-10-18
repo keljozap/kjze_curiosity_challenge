@@ -2,11 +2,13 @@
 import express, { Application } from 'express';
 import apiRouter from './routes/index';
 import { notFoundHandler, errorHandler } from './middlewares/error.middleware';
+import cors from 'cors';
 
 const app: Application = express();
 const PORT = Number(process.env.PORT) || 3001;
 
-// Body parsing
+// Middlewares globales (Deben ir primero)
+app.use(cors()); // <-- CORS arriba, antes que las rutas
 app.use(express.json());
 
 // Routes
