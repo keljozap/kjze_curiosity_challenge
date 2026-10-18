@@ -146,16 +146,21 @@ Para ejecutar las pruebas E2E de forma aislada mediante Docker (sin necesidad de
 | **Mutation Testing (Stryker)** | Mutation Score >= 70% | ✅ **Completado (90.60%)** |
 | **Pruebas de Aceptación (Karate)** | 4 escenarios BDD mínimos (201, 200, 400, 409) | ✅ **Completado (8 Escenarios)** |
 | **Containerización (Docker)** | `Dockerfile` y `docker-compose.yml` ejecutables en puerto 8080 | ✅ **Completado** |
-| **CI/CD Pipeline** | GitHub Actions con Quality Gates automáticos | ⏳ *Pendiente* |
-| **Evidencias en README** | Capturas y métricas de cobertura, mutación y pipeline | ⏳ *Pendiente* |
+| **CI/CD Pipeline** | GitHub Actions con Quality Gates automáticos | ✅ **Completed**  |
+| **Evidencias en README** | Capturas y métricas de cobertura, mutación y pipeline | ✅ **Completed**  |
 
 ---
 
 ## 7. Evidencias (Próximamente)
 
-- **Cobertura de código:** *(Se adjuntará reporte generado por Jest Coverage al completar las pruebas)*
-- **Mutation Testing:** *(Se adjuntará reporte HTML de Stryker con score >= 70%)*
-- **Pipeline CI/CD:** *(Se adjuntará badge de GitHub Actions en verde con Quality Gate verificado)*
+- **Cobertura de código:** 
+![alt text](assets/Evidencia-Cobertura-jest.png)
+![alt text](assets/Reporte-Jest.png)
+- **Mutation Testing:** 
+![alt text](assets/Evidencia-Mutation.png)
+![alt text](assets/Reporte-Mutation.png)
+- **Pipeline CI/CD:**
+![alt text](assets/Evidencia-Pipeline.png)
 
 ---
 ---
@@ -305,13 +310,15 @@ To run the isolated E2E tests using Docker (without needing to install Java loca
 | **Mutation Testing (Stryker)** | Mutation Score >= 70% | ✅ **Completed (90.60%)** |
 | **Acceptance Tests (Karate)** | 4 minimal BDD scenarios (201, 200, 400, 409) | ✅ **Completed (8 Scenarios)** |
 | **Containerization (Docker)** | `Dockerfile` & `docker-compose.yml` exposed on port 8080 | ✅ **Completed** |
-| **CI/CD Pipeline** | GitHub Actions with automated Quality Gates | ⏳ *Pending* |
-| **Evidence in README** | Screenshots & metrics for coverage, mutation, and pipeline | ⏳ *Pending* |
+| **CI/CD Pipeline** | GitHub Actions with automated Quality Gates | ✅ **Completed**  |
+| **Evidence in README** | Screenshots & metrics for coverage, mutation, and pipeline | ✅ **Completed** |
 
 ---
 
 ## 7. Evidence (Coming Soon)
 
-- **Code Coverage:** *(Jest coverage report will be added upon completing unit tests)*
-- **Mutation Testing:** *(Stryker HTML report with score >= 70% will be added)*
-- **CI/CD Pipeline:** *(Passing GitHub Actions badge with enforced Quality Gate will be linked)*
+- **Code Coverage:** ![alt text](assets/Evidencia-Cobertura-jest.png)
+![alt text](assets/Reporte-Jest.png)
+- **Mutation Testing:** ![alt text](assets/Evidencia-Mutation.png)
+![alt text](assets/Reporte-Mutation.png)
+- **CI/CD Pipeline:** ![alt text](assets/Evidencia-Pipeline.png)
