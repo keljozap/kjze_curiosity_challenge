@@ -189,6 +189,21 @@ npm run dev
 
 La interfaz estará disponible en http://localhost:5173.
 
+## 🧠 Plus de Innovación: QA Asistido por IA (LangChain)
+
+Como valor agregado, se implementó una prueba de concepto aplicando técnicas de **Ingeniería Asistida por IA**. 
+
+Utilizando **LangChain** y el modelo **Gemini 3.5 Flash-Lite**, se desarrolló un script de análisis estático que lee el *Page Object Model*, los *Enums* de estado/acciones y los *Tests automatizados* actuales para:
+1. Detectar escenarios de prueba faltantes (Edge cases y flujos negativos).
+2. Generar recomendaciones de calidad basadas en riesgo.
+3. Autogenerar una matriz de trazabilidad actualizada.
+
+**Artefactos del proyecto:**
+- 🤖 **Script del Agente:** `frontend-orders/e2e/ai/analyze-scenarios.ts`
+- 📄 **Reporte autogenerado:** [`AI_TEST_RECOMMENDATIONS.md`](./AI_TEST_RECOMMENDATIONS.md)
+
+> **Nota para evaluadores:** El reporte ya se encuentra generado en el repositorio para su revisión. Si desean ejecutar el agente localmente, creen un archivo `.env` en el directorio `frontend-orders` con la variable `GEMINI_API_KEY=tu_llave` y ejecuten `npm run ai:scenarios`.
+
 # 🇺🇸 English Version
 
 Technical challenge solution for the **QA Software Engineer / Quality Assurance - Semi Senior** position. This is a RESTful API built with **Node.js, Express, and TypeScript**, adopting secure coding practices, Clean Architecture, robust error handling, and a comprehensive quality assurance strategy.
@@ -370,3 +385,18 @@ npm install
 npm run dev
 ```
 The interface will be available at http://localhost:5173.
+
+## 🧠 Innovation Plus: AI-Assisted QA (LangChain)
+
+As an added value, a proof of concept was implemented applying **AI-Assisted Engineering** techniques. 
+
+Using **LangChain** and the **Gemini 3.5 Flash-Lite** model, a static analysis script was developed. It reads the *Page Object Model*, state/action *Enums*, and the current *Automated Tests* to:
+1. Identify missing test scenarios (Edge cases and negative flows).
+2. Generate risk-based quality recommendations.
+3. Auto-generate an updated traceability matrix.
+
+**Project Artifacts:**
+- 🤖 **Agent Script:** `frontend-orders/e2e/ai/analyze-scenarios.ts`
+- 📄 **Auto-generated Report:** [`AI_TEST_RECOMMENDATIONS.md`](./AI_TEST_RECOMMENDATIONS.md)
+
+> **Note for reviewers:** The generated report is already available in the repository for your review. If you wish to run the AI agent locally, please create a `.env` file in the `frontend-orders` directory with the variable `GEMINI_API_KEY=your_api_key` and run `npm run ai:scenarios`.
