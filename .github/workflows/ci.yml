@@ -31,7 +31,7 @@ jobs:
         run: npm run test:coverage
 
       - name: 5️⃣ Mutation Testing
-        run: npm run test:mutate
+        run: npm run test:mutation
 
       - name: 6️⃣ Pruebas Karate
         run: |
