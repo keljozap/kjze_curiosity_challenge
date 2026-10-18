@@ -57,3 +57,8 @@ stryker.log
 target/
 karate.jar
 *.log
+
+# Frontend
+frontend-orders/node_modules/
+frontend-orders/dist/
+frontend-orders/.vite/
