@@ -12,4 +12,12 @@ module.exports = {
   preset: 'ts-jest',
   // Formatos de reporte que generará Istanbul
   coverageReporters: ['text', 'lcov', 'clover', 'cobertura', 'json'],
+  coverageThreshold: {
+    global: {
+      lines: 80,
+      branches: 80,
+      functions: 80,
+      statements: 80
+    }
+  },
 };

@@ -24,8 +24,8 @@
   ],
   "thresholds": {
     "high": 80,
-    "low": 60,
-    "break": null
+    "low": 70,
+    "break": 70
   },
   "tempDirName": ".stryker-tmp",
   "cleanTempDir": true

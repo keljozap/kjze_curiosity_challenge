@@ -1,0 +1,49 @@
+name: QA Quality Gate CI/CD
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1️⃣ Checkout
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 2️⃣ Build
+        run: |
+          npm install
+          npm run build
+
+      - name: 3️⃣ Pruebas unitarias
+        run: npm test
+
+      - name: 4️⃣ Cobertura
+        run: npm run test:coverage
+
+      - name: 5️⃣ Mutation Testing
+        run: npm run test:mutation
+
+      - name: 6️⃣ Pruebas Karate
+        run: |
+          # Levantar la API compilada en background y esperar que responda
+          npm start &
+          sleep 5
+          
+          # Descargar Karate
+          curl -L -o karate.jar https://github.com/karatelabs/karate/releases/download/v1.4.1/karate-1.4.1.jar
+          
+          # Ejecutar Karate mediante Docker
+          docker run --rm --add-host host.docker.internal:host-gateway -v "${{ github.workspace }}:/app" -w /app eclipse-temurin:17-jre java -jar karate.jar tests/karate/api/orders.feature
+
+      - name: 7️⃣ Construcción de imagen Docker
+        run: docker compose build
