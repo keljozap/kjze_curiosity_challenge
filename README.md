@@ -163,7 +163,31 @@ Para ejecutar las pruebas E2E de forma aislada mediante Docker (sin necesidad de
 ![alt text](assets/Evidencia-Pipeline.png)
 
 ---
----
+
+## 🌟 Entregables Adicionales (Bonus)
+
+Para demostrar la robustez de la API y proporcionar una experiencia de usuario completa, se ha desarrollado un **Dashboard Frontend** integrado de principio a fin.
+
+### Dashboard de Órdenes (Frontend)
+Ubicado en la carpeta `frontend-orders/`, este cliente fue construido utilizando **Vite, React, TypeScript y Tailwind CSS**.
+
+**Funcionalidades Implementadas:**
+- **Creación de Órdenes (Carrito de Compras):** Permite seleccionar múltiples productos de un catálogo predeterminado, asignar cantidades y generar una orden para un cliente.
+- **Consulta y Desglose:** Una tabla interactiva que lista todas las órdenes, desglosando los productos comprados y calculando el total.
+- **Gestión del Ciclo de Vida:** Botones dinámicos que permiten actualizar lógicamente el estado de la orden (`CREADA` ➔ `PAGADA` ➔ `ENVIADA` ➔ `ENTREGADA`), consumiendo el endpoint `PATCH` de la API.
+- **Cancelación:** Opción para cancelar órdenes (`DELETE`), respetando las reglas de negocio (no se pueden cancelar órdenes ya entregadas).
+- **Manejo de Errores UI:** Captura y muestra los errores provenientes del backend (ej. validaciones de reglas de negocio) mediante alertas visuales.
+
+### ¿Cómo ejecutar la interfaz?
+Asegúrate de que la API Backend esté corriendo en el puerto `8080` (ya sea vía Docker o localmente). Luego, abre una nueva terminal y ejecuta:
+
+```bash
+cd frontend-orders
+npm install
+npm run dev
+```
+
+La interfaz estará disponible en http://localhost:5173.
 
 # 🇺🇸 English Version
 
@@ -322,3 +346,27 @@ To run the isolated E2E tests using Docker (without needing to install Java loca
 - **Mutation Testing:** ![alt text](assets/Evidencia-Mutation.png)
 ![alt text](assets/Reporte-Mutation.png)
 - **CI/CD Pipeline:** ![alt text](assets/Evidencia-Pipeline.png)
+
+## 🌟 Additional Deliverables (Bonus)
+
+To demonstrate the robustness of the API and provide a complete user experience, an end-to-end integrated **Frontend Dashboard** has been developed.
+
+### Orders Dashboard (Frontend)
+Located in the `frontend-orders/` folder, this client application was built using **Vite, React, TypeScript, and Tailwind CSS**.
+
+**Implemented Features:**
+- **Order Creation (Shopping Cart):** Allows users to select multiple products from a predefined catalog, set quantities, and generate an order for a customer.
+- **Query and Breakdown:** An interactive table that lists all orders, breaking down the purchased products and displaying the calculated total.
+- **Lifecycle Management:** Dynamic buttons that logically update the order status (`CREADA` ➔ `PAGADA` ➔ `ENVIADA` ➔ `ENTREGADA`), consuming the API's `PATCH` endpoint.
+- **Cancellation:** Option to cancel orders (`DELETE`), strictly enforcing business rules (e.g., orders that have already been delivered cannot be canceled).
+- **UI Error Handling:** Catches and displays errors originating from the backend (such as business rule validations) using clear visual alerts.
+
+### How to run the interface?
+Ensure the Backend API is running on port `8080` (either via Docker or locally). Then, open a new terminal and run:
+
+```bash
+cd frontend-orders
+npm install
+npm run dev
+```
+The interface will be available at http://localhost:5173.
