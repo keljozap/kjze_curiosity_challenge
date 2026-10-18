@@ -1,10 +1,9 @@
 # API de Gestión de Órdenes de Compra - Reto Técnico QA
 
 > **Languages / Idiomas:** [Español](#-versión-en-español) | [English](#-english-version)
-
 ---
 
-# 🇪🇸 Versión en Español
+# 🇨🇴 Versión en Español
 
 Solución al reto técnico para la posición de **Ingeniero/a de Software QA de Calidad TI - Semi Senior**. Consiste en una API REST construida con **Node.js, Express y TypeScript**, aplicando principios de desarrollo seguro, Clean Code, manejo robusto de errores y una estrategia integral de aseguramiento de calidad.
 
@@ -86,6 +85,7 @@ src/
 ### Prerrequisitos
 - Node.js >= 20.x (Recomendado 22+ o 25+)
 - npm >= 9.x
+- Docker y Docker Compose
 
 ### Instalación
 ```bash
@@ -93,21 +93,20 @@ git clone https://github.com/keljozap/kjze_curiosity_challenge.git
 cd curiosity_reto_tecnico
 npm install
 ```
-
-### Modo Desarrollo (Hot-Reload)
+### Modo Desarrollo Local (Hot-Reload)
 ```bash
 npm run dev
 ```
 El servidor iniciará en: `http://localhost:8080`
 
-### Modo Producción
+### Ejecución con Docker (Recomendado para revisión)
+
 ```bash
-npm run build
-npm start
+docker-compose up --build
 ```
+La API estará disponible en el puerto mapeado: http://localhost:8080/orders
 
 ---
-
 ## 5. Cómo Ejecutar las Pruebas
 
 ```bash
@@ -124,19 +123,29 @@ npm run test:coverage
 npm run test:mutate
 ```
 
+### Pruebas de Aceptación End-to-End (Karate BDD)
+Para ejecutar las pruebas E2E de forma aislada mediante Docker (sin necesidad de instalar Java localmente), asegúrate de que tu servidor esté corriendo y ejecuta los siguientes comandos en la raíz del proyecto:
+1. Descargar el ejecutable de Karate:
+   
+   curl -L -o karate.jar [https://github.com/karatelabs/karate/releases/download/v1.4.1/karate-1.4.1.jar](https://www.google.com/search?q=https://github.com/karatelabs/karate/releases/download/v1.4.1/karate-1.4.1.jar&authuser=1)
+   
+2. Ejecutar los escenarios BDD montando el volumen en un contenedor temporal de Java:
+   
+   docker run --rm -v "$(pwd):/app" -w /app eclipse-temurin:17-jre java -jar karate.jar tests/karate/api/orders.feature
+
 ---
 
 ## 6. Checklist de Entregables del Reto
 
-| Entregable | Requisito del Reto | Estado |
-| :--- | :--- | :---: |
+| **Entregable** | **Requisito del Reto** | **Estado** |
+| --- | --- | --- |
 | **API REST** | Ejecución local, validaciones RN-00 a RN-06, manejo de errores | ✅ **Completado** |
 | **Arquitectura Limpia** | Separación de capas, middlewares, tipado estricto | ✅ **Completado** |
-| **Pruebas Unitarias (Jest)** | Casos exitosos, negativos, reglas de negocio | ⏳ *Pendiente* |
-| **Cobertura de Código** | Líneas >= 80%, Ramas >= 80% | ⏳ *Pendiente* |
-| **Mutation Testing (Stryker)** | Mutation Score >= 70% | ⏳ *Pendiente* |
-| **Pruebas de Aceptación (Karate)** | 4 escenarios BDD mínimos (201, 200, 400, 409) | ⏳ *Pendiente* |
-| **Containerización (Docker)** | `Dockerfile` y `docker-compose.yml` ejecutables en puerto 8080 | ⏳ *Pendiente* |
+| **Pruebas Unitarias (Jest)** | Casos exitosos, negativos, reglas de negocio | ✅ **Completado** |
+| **Cobertura de Código** | Líneas >= 80%, Ramas >= 80% | ✅ **Completado (>96%)** |
+| **Mutation Testing (Stryker)** | Mutation Score >= 70% | ✅ **Completado (90.60%)** |
+| **Pruebas de Aceptación (Karate)** | 4 escenarios BDD mínimos (201, 200, 400, 409) | ✅ **Completado (8 Escenarios)** |
+| **Containerización (Docker)** | `Dockerfile` y `docker-compose.yml` ejecutables en puerto 8080 | ✅ **Completado** |
 | **CI/CD Pipeline** | GitHub Actions con Quality Gates automáticos | ⏳ *Pendiente* |
 | **Evidencias en README** | Capturas y métricas de cobertura, mutación y pipeline | ⏳ *Pendiente* |
 
@@ -233,6 +242,7 @@ src/
 ### Prerequisites
 - Node.js >= 20.x (Recommended: 22+ or 25+)
 - npm >= 9.x
+- Docker and Docker Compose
 
 ### Setup
 ```bash
@@ -240,18 +250,19 @@ git clone https://github.com/keljozap/kjze_curiosity_challenge.git
 cd curiosity_reto_tecnico
 npm install
 ```
+### Docker Execution (Recommended for Evaluation)
+
+This is the standard way to run the project and validate the technical challenge.
+```bash
+docker-compose up --build
+```
+The API will be exposed on the mapped port at: `http://localhost:8080/orders`
 
 ### Development Mode (Hot-Reload)
 ```bash
 npm run dev
 ```
 The server will start listening at: `http://localhost:8080`
-
-### Production Mode
-```bash
-npm run build
-npm start
-```
 
 ---
 
@@ -270,20 +281,30 @@ npm run test:coverage
 # Run mutation testing (Stryker)
 npm run test:mutate
 ```
+### End-to-End Acceptance Tests (Karate BDD)
 
+To run the isolated E2E tests using Docker (without needing to install Java locally), ensure your server is running and execute the following commands in the project root:
+
+1. Download the Karate standalone executable:
+   
+   curl -L -o karate.jar [https://github.com/karatelabs/karate/releases/download/v1.4.1/karate-1.4.1.jar](https://www.google.com/search?q=https://github.com/karatelabs/karate/releases/download/v1.4.1/karate-1.4.1.jar&authuser=1)
+   
+2. Run the BDD scenarios by mounting the volume into a temporary Java container:
+   
+   docker run --rm -v "$(pwd):/app" -w /app eclipse-temurin:17-jre java -jar karate.jar tests/karate/api/orders.feature
 ---
 
 ## 6. Challenge Deliverables Checklist
 
-| Deliverable | Challenge Rubric Requirement | Status |
-| :--- | :--- | :---: |
+| **Deliverable** | **Challenge Rubric Requirement** | **Status** |
+| --- | --- | --- |
 | **REST API** | Local execution, business rules RN-00 to RN-06, robust error handling | ✅ **Completed** |
 | **Clean Architecture** | Layered separation, centralized middlewares, strict types | ✅ **Completed** |
-| **Unit Tests (Jest)** | Success scenarios, negative scenarios, business rules | ⏳ *Pending* |
-| **Code Coverage** | Lines >= 80%, Branches >= 80% | ⏳ *Pending* |
-| **Mutation Testing (Stryker)** | Mutation Score >= 70% | ⏳ *Pending* |
-| **Acceptance Tests (Karate)** | 4 minimal BDD scenarios (201, 200, 400, 409) | ⏳ *Pending* |
-| **Containerization (Docker)** | `Dockerfile` & `docker-compose.yml` exposed on port 8080 | ⏳ *Pending* |
+| **Unit Tests (Jest)** | Success scenarios, negative scenarios, business rules | ✅ **Completed** |
+| **Code Coverage** | Lines >= 80%, Branches >= 80% | ✅ **Completed (>96%)** |
+| **Mutation Testing (Stryker)** | Mutation Score >= 70% | ✅ **Completed (90.60%)** |
+| **Acceptance Tests (Karate)** | 4 minimal BDD scenarios (201, 200, 400, 409) | ✅ **Completed (8 Scenarios)** |
+| **Containerization (Docker)** | `Dockerfile` & `docker-compose.yml` exposed on port 8080 | ✅ **Completed** |
 | **CI/CD Pipeline** | GitHub Actions with automated Quality Gates | ⏳ *Pending* |
 | **Evidence in README** | Screenshots & metrics for coverage, mutation, and pipeline | ⏳ *Pending* |
 
